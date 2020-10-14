@@ -1,0 +1,158 @@
+#include<bits/stdc++.h>
+ 
+#define ll          long long
+#define pb          push_back
+#define ppb         pop_back
+#define int         ll int
+#define float       double
+#define	endl		'\n'
+#define maxpq       priority_queue<ll>
+#define minpq       priority_queue<ll, vector<ll>, greater<ll> >
+#define mii         map<int,int>
+#define msi         map<string,int>
+#define mis         map< int, string>
+#define mpi         map<pair< int, int>, int>
+#define pii         pair< int, int>
+#define vi          vector< int>
+#define vs          vector<string>
+#define all(a)      (a).begin(),(a).end()
+#define F           first
+#define S           second
+#define sz(x)       (ll int)x.size()
+#define hell        1000000007
+#define lbnd        lower_bound
+#define ubnd        upper_bound
+#define bs          binary_search
+#define mp          make_pair
+#define EPS         1e-9
+#define INF         1e18
+#define PI          3.14159265358979323846
+#define MAXI        1000000
+#define what_is(x)  cerr << #x << " is " << x << endl;
+#define fast ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+using namespace std;
+#define N 100005
+void selection_sort(int arr[],int n)
+{
+	int k=0;
+	for(int i=0;i<=n-1;i++)
+	{
+		int a=min_element(arr+i,arr+n)-arr;
+		swap(arr[k++],arr[a]);
+	}
+}
+void bubble_sort(int arr[],int n)
+{
+	for(int i=0;i<=n-1;i++)
+	{
+		for(int j=0;j<=n-2;j++)
+		{
+			if(arr[j]>arr[j+1])
+			{
+				swap(arr[j],arr[j+1]);
+			}
+		}
+	}
+}
+void insertion_sort(int arr[],int n)
+{
+	for(int i=0;i<=n-1;i++)
+	{
+		int value=arr[i];
+		int curr=i;
+		while(curr>0&&arr[curr-1]>value)
+		{
+			arr[curr]=arr[curr-1];
+			curr--;
+		}
+		arr[curr]=value;
+	}
+}
+void merge(int a[],int b[],int arr[],int n)
+{
+	int mid=n/2;
+	int i=0,j=0;
+	int k=0;
+	while(i<mid&&j<n-mid)
+	{
+		if(a[i]<b[j])
+		{
+			arr[k]=a[i];
+			i++;
+		}
+		else
+		{
+			arr[k]=b[j];
+			j++;
+		}
+		k++;
+	}
+	while(i<mid)
+	{
+		arr[k++]=a[i++];
+	}
+	while(j<n-mid)
+	{
+		arr[k++]=b[j++];
+	}
+}
+void merge_sort(int arr[],int n)//Recursive algorithm
+{
+	// why we are making this space complexity and why not just taking the starting and ending posititon
+	if(n<=1) return;
+	int mid=n/2;
+	int left[mid];
+	int right[n-mid];
+	for(int i=0;i<=mid-1;i++) left[i]=arr[i];
+	for(int i=mid;i<=n-1;i++) right[i-mid]=arr[i];
+	merge_sort(left,mid);
+	merge_sort(right,n-mid);
+	merge(left,right,arr,n);
+}
+int pivott(int arr[],int start,int end)
+{
+	int pivotind=rand()%(end-start+1);
+	swap(arr[pivotind],arr[end]);
+	int p=arr[end];
+	int pind=start;
+	for(int i=start;i<=end-1;i++)
+	{
+		if(arr[i]<p)
+		{
+			swap(arr[pind++],arr[i]);
+		}
+	}
+	swap(arr[pind],arr[end]);
+	return pind;
+}
+void quick_sort(int arr[],int start,int end)
+{
+	if(start>=end) return;
+	int pivot=pivott(arr,start,end);
+	quick_sort(arr,start,pivot-1);
+	quick_sort(arr,pivot+1,end);
+	for(int i=start;i<=end;i++) cout<<arr[i]<<" ";
+	cout<<endl;
+}
+signed main()
+{
+	fast;
+    int n;
+    cin>>n;
+    int arr[n];
+    int i,j,k;
+    for(i=0;i<=n-1;i++)
+    {
+    	cin>>arr[i];
+	  }
+	//selection_sort(arr,n);
+	//bubble_sort(arr,n);
+	//insertion_sort(arr,n);
+	//merge_sort(arr,n);
+	//quick_sort(arr,0,n-1);
+	for(i=0;i<=n-1;i++)
+	{
+		cout<<arr[i]<<" ";
+	}
+	cout<<endl;
+}
