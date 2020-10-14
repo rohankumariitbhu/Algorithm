@@ -1,0 +1,110 @@
+#include<bits/stdc++.h>
+#define ll long long int
+using namespace std;
+#define fio ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL)
+#define mp make_pair
+#define fi first
+#define se second
+#define pb push_back
+#define endl "\n"
+#define maxpq priority_queue<ll>
+#define minpq priority_queue<ll, vector<ll>, greater<ll> >
+#define vi vector<ll>
+#define pii pair<ll, ll>
+#define vii vector<pii>
+#define for0(i, n) for (int i = 0; i < n; i++)
+#define for1(i, n) for (int i = 1; i <= n; i++)
+#define loop(i,a,b) for (int i = a; i < b; i++)
+#define bloop(i,a,b) for (int i = a ; i>=b;i--)
+#define MOD 1000000007
+#define INT_MAXI 9000000000000000000
+#define INT_MINI -9000000000000000000
+
+ll max(ll a, ll b) {if (a > b) return a; else return b;}
+ll min(ll a, ll b) {if (a < b) return a; else return b;}
+
+const int dx[4] = { -1, 1, 0, 0};
+const int dy[4] = {0, 0, -1, 1};
+int XX[] = { -1, -1, -1, 0, 0, 1, 1, 1 };
+int YY[] = { -1, 0, 1, -1, 1, -1, 0, 1 };
+
+vector<pair<ll,pair<ll,ll> > >edges;
+vector<pii>v[100005];
+map<pii,ll>mpp;
+ll br[500005];
+ll n,m;
+
+ll parent[100005];
+ll siz[100005];
+ll find_parent(ll v) {
+    if (v == parent[v])
+        return v;
+    return parent[v] = find_parent(parent[v]);
+}
+
+
+void make_set(ll v) {
+    parent[v] = v;
+    siz[v] = 1;
+}
+
+void union_sets(ll a, ll b) {
+    ll pa = find_parent(a);
+    ll pb = find_parent(b);
+    if (pa != pb) {
+        if (siz[pa] < siz[pb])
+            swap(pa, pb);
+        parent[pb] = pa;
+        siz[pa] += siz[pb];
+    }
+}
+ll dfs(ll x,ll fr){
+    ll R=1;
+    for (int i=0;i<v[x].size();i++)
+    if (v[x][i].fi!=fr){
+        ll K=dfs(v[x][i].fi,x);
+        br[v[x][i].se]+=1ll*K*(n-K);
+        R+=K;
+    }
+    return R;
+}
+
+int main()
+{
+   memset(br,0,sizeof(br));
+	fio;
+   ll k,i,j,ans=0,a,b,c,bm;
+   cin>>n>>m;
+   for(i=0;i<m;i++)
+   {
+   	cin>>a>>b>>c;
+      edges.pb(mp(c,mp(a,b)));
+     
+   }
+ 
+   for(i=1;i<=n;i++)
+   make_set(i);
+   
+   sort(edges.begin(),edges.end());
+   ll sum=0;
+   for(i=0;i<edges.size();i++)
+   {
+   	a=edges[i].se.fi;
+   	b=edges[i].se.se;
+   	  ll pa=find_parent(a);
+   	  ll pb=find_parent(b);
+   	  if(pa!=pb)
+   	  {
+   	  //   cout<<a<<" "<<b<<endl;
+   	  	v[a].pb(mp(b,edges[i].fi));
+   	  	v[b].pb(mp(a,edges[i].fi));
+   	  	union_sets(a,b);
+   	  	sum+=edges[i].fi;
+		 }
+   	
+   }
+   cout<<sum;
+  
+   
+   
+ }
