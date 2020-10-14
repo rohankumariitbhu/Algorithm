@@ -1,0 +1,76 @@
+#include<bits/stdc++.h>
+ 
+#define ll          long long
+#define pb          push_back
+#define ppb         pop_back
+#define int         ll int
+#define float       double
+#define	endl		'\n'
+#define maxpq       priority_queue<ll>
+#define minpq       priority_queue<ll, vector<ll>, greater<ll> >
+#define mii         map<int,int>
+#define msi         map<string,int>
+#define mis         map< int, string>
+#define mpi         map<pair< int, int>, int>
+#define pii         pair< int, int>
+#define vi          vector< int>
+#define vs          vector<string>
+#define all(a)      (a).begin(),(a).end()
+#define F           first
+#define S           second
+#define sz(x)       (ll int)x.size()
+#define hell        1000000007
+#define lbnd        lower_bound
+#define ubnd        upper_bound
+#define bs          binary_search
+#define mp          make_pair
+#define EPS         1e-9
+#define INF         1e18
+#define PI          3.14159265358979323846
+#define MAXI        1000001
+#define what_is(x)  cerr << #x << " is " << x << endl;
+#define fast ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+using namespace std;
+#define N  100005
+//segemnt tree implementation
+int n,t[4*MAXI];
+// because the noe of tree grows upto 4 times n
+void build(int a[],int pos,int tl,int tr)
+{
+	if(tl==tr)
+	{
+		t[pos]=a[tl];
+	} else {
+		int tm=(tl+tr)/2;
+		build(a,2*pos+1,tl,tm);
+		build(a,2*pos+2,tm+1,tr);
+		// Here what ever you want in segement tree
+		t[pos]=t[2*pos+1]+t[2*pos+2];
+	}
+}
+void update(int pos,int ind,int x,int tl,int tr)
+{
+	if(tl==tr)
+	{
+		t[pos]=x;
+	} else {
+		int tm=(tl+tr)/2;
+		if(ind<=tm) update(2*pos+1,ind,x,tl,tm);
+		else update(2*pos+2,ind,x,tm+1,tr);
+		// Here wht you want in segment tree
+		t[pos]=t[2*pos+1]+t[2*pos+2];
+	}
+}
+int answer_query(int pos,int tl,int tr,int l,int r)
+{
+	if(l>r) return 0;
+	if(l==tl&&r==tr) return t[pos];
+	int tm=(tl+tr)/2;
+	//Here what you want in segment tree
+	return answer_query(2*pos+1,tl,tm,l,min(r,tm))+answer_query(2*pos+2,tm+1,tr,max(l,tm+1),r);
+}
+signed main()
+{
+	fast;
+    
+}
