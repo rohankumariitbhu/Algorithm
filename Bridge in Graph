@@ -1,0 +1,34 @@
+vector<ll>vec[100005];
+bool visited[100005];
+vector<pair<ll,ll> >vec2;
+ll tin[100005];
+ll low[100005];
+int timer,c;
+
+void dfs(ll v, ll p ) {
+ 
+    tin[v] =  timer++;
+    low[v]=timer++;
+    for (auto to : vec[v]) {
+    	if (to == p) continue;
+    	
+        if (visited[to]) {
+            low[v] = min(low[v], tin[to]);
+        } 
+		else 
+		{
+        	visited[to]=true;
+            dfs(to, v);
+            low[v] = min(low[v], low[to]);
+            if (low[to] > tin[v])
+                vec2.push_back(make_pair(v,to));
+        }
+    }
+}
+int main()
+{
+    	timer=0;
+	memset(visited,false,sizeof(visited));
+	memset(tin,-1,sizeof(tin));
+	memset(low,-1,sizeof(low));
+}
