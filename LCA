@@ -1,0 +1,72 @@
+ll N;
+ll par[1005][21];
+
+// Stores the dept 
+ll level[1005];
+
+// Stores the tree 
+vector<ll> vec[1005];
+
+// Function to pre-compute DFS
+void dfs(ll v, ll p)
+{
+
+    // First parent
+    par[v][0] = p;
+
+    // Finds the parent at 2^i
+    for (ll i = 1; i <= 20; i++)
+        par[v][i] = par[par[v][i - 1]][i - 1];
+
+    // Call DFS function
+    for (ll i = 0; i < vec[v].size(); i++) {
+        ll to = vec[v][i];
+
+        // Already visited
+        if (to == p)
+            continue;
+        
+        // Find the depth 
+        level[to] = level[v] + 1;
+        
+        // Call the Dfs Function 
+        dfs(to, v);
+    }
+}
+
+
+
+
+// Function to find the lca of a and b 
+ll lca(ll a, ll b)
+{
+
+    // If a is higher than b then swap them 
+    // Tree me a niche rahegi and b upar hamesha 
+    if (level[a] < level[b])
+        swap(a, b);
+
+    // Make both of them at equal height 
+    for (ll i = 20; i >= 0; i--)
+    {
+        if (level[a] - (1 << i) >= level[b])
+            a = par[a][i];
+    }
+
+    // Now traverse till up 
+    // till we donot get parent same 
+    for (ll i = 20; i >= 0; --i)
+    {
+        if (par[a][i] != par[b][i])
+        {
+            a = par[a][i],
+            b = par[b][i];
+        }
+    }
+    
+    // Till now not same 
+    if (a != b)
+        a = par[a][0];
+
+    return a;
+}
