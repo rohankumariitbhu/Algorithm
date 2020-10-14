@@ -1,0 +1,22 @@
+for(k=1;k<=n;k++)
+	{
+		for(i=1;i<=n;i++)
+		{
+			for(j=1;j<=n;j++)
+			{
+			
+					if(mat[i][k]+mat[k][j]<mat[i][j])
+					{
+						mat[i][j]=mat[i][k]+mat[k][j];
+					ways[i][j]=ways[i][k]*ways[k][j];
+						
+					}
+					else if(mat[i][k]+mat[k][j]==mat[i][j])
+					{
+						ways[i][j]+=ways[i][k]*ways[k][j];
+					}
+					
+				
+			}
+		}
+	}
