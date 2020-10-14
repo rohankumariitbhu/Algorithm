@@ -1,0 +1,128 @@
+#include<bits/stdc++.h>
+#define ll long long int
+using namespace std;
+#define fio ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL)
+#define mp make_pair
+#define fi first
+#define se second
+#define pb emplace_back
+#define endl "\n"
+#define maxpq priority_queue<ll>
+#define minpq priority_queue<ll, vector<ll>, greater<ll> >
+#define vi vector<ll>
+#define pii pair<int, int>
+#define vii vector<pii>
+#define for0(i, n) for (int i = 0; i < n; i++)
+#define for1(i, n) for (int i = 1; i <= n; i++)
+#define loop(i,a,b) for (int i = a; i < b; i++)
+#define bloop(i,a,b) for (int i = a ; i>=b;i--)
+#define MOD 1000000007
+#define INT_MAXI 9000000000000000000
+const int dx[4] = { -1, 1, 0, 0};
+const int dy[4] = {0, 0, -1, 1};
+int XX[] = { -1, -1, -1, 0, 0, 1, 1, 1 };
+int YY[] = { -1, 0, 1, -1, 1, -1, 0, 1 };
+ 
+ vector<ll>vec;
+ll N,a,b,x,y,k;
+ll dp[17][2][120][5005];
+ll func(ll ind,ll flag,ll sum,ll rem)
+{
+	
+	if(ind==N)
+	{
+		if(sum>=x&&sum<=y&&rem==0)
+		return 1;
+		return 0;
+	}
+	if(dp[ind][flag][sum][rem]!=-1)
+	return dp[ind][flag][sum][rem];
+	
+	ll count=0;
+	if(flag==1)
+	{
+		
+		for(ll j=0;j<=9;j++)
+		{
+			count+=func(ind+1,flag,sum+j,(rem*10+j)%k);
+		}
+		
+	}
+	else
+	{
+		for(ll j=0;j<=vec[ind];j++)
+		{
+			if(j<vec[ind])
+			{
+				count+=func(ind+1,1,sum+j,(rem*10+j)%k);
+			}
+			else if(j==vec[ind])
+			{
+				count+=func(ind+1,flag,sum+j,(rem*10+j)%k);
+			}
+			
+			
+		}
+		
+		
+	}
+	return dp[ind][flag][sum][rem]=count;
+	
+	
+}
+ 
+ 
+int main()
+{
+ 
+	
+	fio;
+	ll i,j;
+    cin>>a>>b>>x>>y>>k;
+   if (k >= 5000) {
+        long long ans = 0;
+        for (long long i = k; i <= b; i += k) {
+            if (i < a) {
+                continue;
+            }
+            int sum = 0;
+			ll num=i;
+			while(num!=0)
+			{
+				sum+=num%10;
+				num=num/10;
+			}
+            if (sum >= x && sum <= y) {
+                ans++;
+            }
+        }
+        cout<<ans<<endl;
+        return 0;
+    }
+   ll num=b;
+   while(num!=0)
+   {
+   	vec.push_back(num%10);
+   	num=num/10;
+   }
+   reverse(vec.begin(),vec.end());
+   N=vec.size();
+   memset(dp,-1,sizeof(dp));
+   ll ans=func(0,0,0,0);
+   
+   vec.clear();
+   num=a-1;
+   while(num!=0)
+   {
+   	vec.push_back(num%10);
+   	num=num/10;
+   }
+   reverse(vec.begin(),vec.end());
+   memset(dp,-1,sizeof(dp));
+   N=vec.size();
+   ans-=func(0,0,0,0);
+   cout<<ans;
+    
+	
+	
+}
